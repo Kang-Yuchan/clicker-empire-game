@@ -1,23 +1,29 @@
 import { useState } from 'react';
 import { getUser } from '../lib/user';
+import { User } from '../types';
+import { DEFAULT_USER_DATA } from '../lib/constants';
 
 export const useLogin = () => {
-  const [auth, setAuth] = useState(false);
+  const [user, setUser] = useState<User | null>(null);
 
-  const handleClickAuth = () => setAuth(true);
+  const handleClickuser = (userName: string) =>
+    setUser({
+      ...DEFAULT_USER_DATA,
+      name: userName,
+    });
 
   const handleClickLogin = (userName: string) => {
     const user = getUser(userName);
     if (user) {
-      setAuth(true);
+      setUser(user);
     } else {
       alert('There is no data.');
     }
   };
 
   return {
-    auth,
+    user,
     login: handleClickLogin,
-    register: handleClickAuth,
+    register: handleClickuser,
   };
 };

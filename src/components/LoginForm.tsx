@@ -1,7 +1,7 @@
 import { ChangeEvent, useState } from 'react';
 
 type LoginFormProps = {
-  register: () => void;
+  register: (userName: string) => void;
   login: (userName: string) => void;
 };
 
@@ -27,7 +27,7 @@ export default function LoginForm({ register, login }: LoginFormProps) {
       <div className="flex justify-between">
         <button
           type="button"
-          onClick={register}
+          onClick={() => register(name)}
           className="rounded-md bg-blue-500 text-white flex justify-center items-center w-[130px] h-9 transition hover:opacity-80 cursor-pointer"
         >
           New
