@@ -5,8 +5,8 @@ import { useLogin } from './hooks/useLogin';
 function App() {
   const { user, register, login } = useLogin();
   return (
-    <main className="bg-[#343a40] h-screen">
-      <div className="flex h-full items-center justify-center">
+    <main className="bg-[#343a40]">
+      <div className="flex h-screen items-center justify-center p-12">
         {user ? (
           <GameApp user={user} />
         ) : (
