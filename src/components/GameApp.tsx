@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
-import { User } from '../types';
-import { DEFAULT_ITEMS } from '../lib/constants';
+import { Item, User } from '../types';
+import ItemCard from './ItemCard';
+import ItemDetail from './ItemDetail';
 
 type GameAppProps = {
   user: User;
@@ -10,6 +11,7 @@ const MONEY_AS_ONE_CLICK = 25;
 
 export default function GameApp({ user }: GameAppProps) {
   const [initialUser, setInitialUser] = useState<User>(user);
+  const [selectedItem, setSelectedItem] = useState<Item | null>(null);
 
   const handleClickBurger = () => {
     setInitialUser({
@@ -17,6 +19,24 @@ export default function GameApp({ user }: GameAppProps) {
       clickCount: initialUser.clickCount + 1,
       money: initialUser.money + MONEY_AS_ONE_CLICK,
     });
+  };
+
+  const handleClickItem = (item: Item) => {
+    setSelectedItem(item);
+  };
+
+  const handleClickPurchase = (totalPrice: number, amount: number) => {
+    const newItems: Item[] = initialUser.items.map((i) =>
+      i.name === selectedItem!.name
+        ? { ...i, currentAmount: i.currentAmount + amount }
+        : i
+    )!;
+    console.log(newItems);
+    setInitialUser((prevState) => ({
+      ...prevState,
+      money: prevState.money - totalPrice,
+      items: newItems,
+    }));
   };
 
   useEffect(() => {
@@ -76,30 +96,22 @@ export default function GameApp({ user }: GameAppProps) {
             </div>
           </div>
         </div>
-        <div className="mt-4 h-4/5 bg-[#343a40] overflow-y-scroll p-2">
-          {DEFAULT_ITEMS.map((item) => (
-            <div
-              key={item.name}
-              className="bg-[#3d5278] m-1 p-2 flex cursor-pointer hover:border-2 hover: border-blue-500 *:text-white"
-            >
-              <div className="block p-1 w-1/4">
-                <img src={item.url} alt={item.name} />
-              </div>
-              <div className="flex flex-col w-full px-4 justify-center gap-2 *:font-semibold">
-                <div className="flex justify-between *:text-2xl">
-                  <h4>{item.name}</h4>
-                  <h4>{item.currentAmount}</h4>
-                </div>
-                <div className="flex justify-between *:text-base">
-                  <p>￥{item.price}</p>
-                  <p className="text-green-600">
-                    ￥{item.perMoney} /
-                    {item.type === 'ability' ? ' click' : ' sec'}
-                  </p>
-                </div>
-              </div>
-            </div>
-          ))}
+        <div className="mt-4 h-4/5 bg-[#343a40] overflow-y-auto p-2">
+          {selectedItem ? (
+            <ItemDetail
+              selectedItem={selectedItem}
+              resetSelectedItem={() => setSelectedItem(null)}
+              handleClickPurchase={handleClickPurchase}
+            />
+          ) : (
+            initialUser.items.map((item) => (
+              <ItemCard
+                key={item.name}
+                item={item}
+                handleClickItem={handleClickItem}
+              />
+            ))
+          )}
         </div>
       </div>
     </div>
