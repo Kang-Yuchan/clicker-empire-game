@@ -15,7 +15,7 @@ export default function ItemCard({ item, handleClickItem }: ItemCardProps) {
       <div className="block p-1 w-1/4">
         <img src={item.url} alt={item.name} />
       </div>
-      <div className="flex flex-col w-full px-4 justify-center gap-2 *:font-semibold">
+      <div className="flex flex-col w-full pl-4 justify-center gap-2 *:font-semibold">
         <div className="flex justify-between *:text-2xl">
           <h4>{item.name}</h4>
           <h4>{item.currentAmount}</h4>

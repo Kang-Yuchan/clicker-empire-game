@@ -21,9 +21,14 @@ export const useLogin = () => {
     }
   };
 
+  const handleClickLogout = () => {
+    setUser(null);
+  };
+
   return {
     user,
     login: handleClickLogin,
     register: handleClickuser,
+    logout: handleClickLogout,
   };
 };
