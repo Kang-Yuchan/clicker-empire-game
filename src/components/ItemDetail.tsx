@@ -26,7 +26,7 @@ export default function ItemDetail({
 
   return (
     <div className="p-2 m-1 text-white bg-[#3d5278]">
-      <div className="flex justify-between">
+      <div className="flex justify-between items-center">
         <div className="flex flex-col gap-4 *:text-xl *:font-semibold">
           <h4>{selectedItem.name}</h4>
           <h4>Max purchases: {selectedItem.maxAmount}</h4>

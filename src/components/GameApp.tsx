@@ -56,7 +56,7 @@ export default function GameApp({ user }: GameAppProps) {
   }, []);
 
   return (
-    <div className="bg-[#3d5278] rounded-md p-2 flex w-10/12 h-full">
+    <div className="bg-[#3d5278] rounded-md p-2 flex md:w-10/12 w-full h-full">
       <div className="bg-[#343a40] p-2 w-1/3">
         <div className="bg-[#3d5278] flex flex-col justify-center text-white">
           <span className="flex text-xl font-medium w-full justify-center items-center">

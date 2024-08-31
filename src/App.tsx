@@ -6,7 +6,7 @@ function App() {
   const { user, register, login } = useLogin();
   return (
     <main className="bg-[#343a40]">
-      <div className="flex h-screen items-center justify-center p-12">
+      <div className="flex h-screen items-center justify-center p-0 md:p-12">
         {user ? (
           <GameApp user={user} />
         ) : (
