@@ -124,3 +124,5 @@ export const DEFAULT_USER_DATA: User = {
   money: 50000,
   stock: 0,
 };
+
+export const MONEY_AS_ONE_CLICK = 25;

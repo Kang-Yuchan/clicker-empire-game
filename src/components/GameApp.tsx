@@ -1,74 +1,26 @@
-import { useEffect, useState } from 'react';
-import { Item, User } from '../types';
+import { User } from '../types';
 import ItemCard from './ItemCard';
 import ItemDetail from './ItemDetail';
 import { FaSave, FaUndo } from 'react-icons/fa';
-import { DEFAULT_USER_DATA } from '../lib/constants';
-import { saveUser } from '../lib/user';
+import { useGame } from '../hooks/useGame';
+import { MONEY_AS_ONE_CLICK } from '../lib/constants';
 
 type GameAppProps = {
   user: User;
   logout: () => void;
 };
 
-const MONEY_AS_ONE_CLICK = 25;
-
 export default function GameApp({ user, logout }: GameAppProps) {
-  const [initialUser, setInitialUser] = useState<User>(user);
-  const [selectedItem, setSelectedItem] = useState<Item | null>(null);
-
-  const handleClickBurger = () => {
-    setInitialUser({
-      ...initialUser,
-      clickCount: initialUser.clickCount + 1,
-      money: initialUser.money + MONEY_AS_ONE_CLICK,
-    });
-  };
-
-  const handleClickItem = (item: Item) => {
-    setSelectedItem(item);
-  };
-
-  const handleClickPurchase = (totalPrice: number, amount: number) => {
-    const newItems: Item[] = initialUser.items.map((i) =>
-      i.name === selectedItem!.name
-        ? { ...i, currentAmount: i.currentAmount + amount }
-        : i
-    )!;
-    setInitialUser((prevState) => ({
-      ...prevState,
-      money: prevState.money - totalPrice,
-      items: newItems,
-    }));
-  };
-
-  const handleClickResetUser = () => {
-    if (confirm('Reset All Data?')) {
-      setInitialUser({ ...DEFAULT_USER_DATA, name: initialUser.name });
-    }
-  };
-
-  const handleClickSaveUser = () => {
-    saveUser(initialUser.name, initialUser);
-    alert('Saved your data. Please put the same name when you login.');
-    logout();
-  };
-
-  useEffect(() => {
-    const setIntervalDaysCount = setInterval(() => {
-      setInitialUser((prevState) => {
-        const newDays = prevState.days + 1;
-        const newAge = DEFAULT_USER_DATA.age + Math.floor(newDays / 365);
-        return {
-          ...prevState,
-          days: newDays,
-          age: newAge,
-        };
-      });
-    }, 1000);
-
-    return () => clearInterval(setIntervalDaysCount);
-  }, []);
+  const {
+    initialUser,
+    selectedItem,
+    setSelectedItem,
+    handleClickBurger,
+    handleClickItem,
+    handleClickPurchase,
+    handleClickResetUser,
+    handleClickSaveUser,
+  } = useGame({ user, logout });
 
   return (
     <div className="bg-[#3d5278] rounded-md p-2 flex md:w-10/12 w-full h-full relative">
